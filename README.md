@@ -78,7 +78,7 @@ Em caso de sucesso, retorna os dados do CEP consultado:
   **Exemplo de resposta:**  
   ```json
   {
-    "error": "O CEP fornecido é inválido. Use o formato 00000-000."
+    "error": "O CEP fornecido é inválido. Use o formato 00000000."
   }
   ```
 

@@ -15,7 +15,6 @@
 - Java
 - Spring Boot
 - RESTful API
-- PostgreSQL
 - JUnit (Testes Unitários)
 
 ## 🚀 Getting Started
@@ -26,7 +25,6 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 - [Java 17+](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 - [Maven](https://maven.apache.org/)
-- [PostgreSQL](https://www.postgresql.org/)
 - [Git](https://git-scm.com/)
 
 ### Clonando o projeto

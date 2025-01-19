@@ -1,96 +1,100 @@
-<h1 align="center" style="font-weight: bold;">Project name 💻</h1>
+# API CEP 💻
 
 <p align="center">
- <a href="#tech">Technologies</a> • 
- <a href="#started">Getting Started</a> • 
-  <a href="#routes">API Endpoints</a> •
- <a href="#colab">Collaborators</a> •
- <a href="#contribute">Contribute</a>
+ <a href="#technologies">Technologies</a> • 
+ <a href="#getting-started">Getting Started</a> • 
+ <a href="#routes">API Endpoints</a>
 </p>
 
 <p align="center">
-    <b>Simple description of what your project do or how to use it.</b>
+    <b>Uma API simples para consultar informações de CEP utilizando o serviço ViaCEP.</b>
 </p>
 
-<h2 id="technologies">💻 Technologies</h2>
+## 💻 Technologies
 
-- list of all technologies you used
 - Java
-- MongoDB
-- NodeJS
+- Spring Boot
+- RESTful API
+- PostgreSQL
+- JUnit (Testes Unitários)
 
-<h2 id="started">🚀 Getting started</h2>
+## 🚀 Getting Started
 
-Here you describe how to run your project locally
+### Pré-requisitos
 
-<h3>Prerequisites</h3>
+Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
-Here you list all prerequisites necessary for running your project. For example:
+- [Java 17+](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
+- [Maven](https://maven.apache.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Git](https://git-scm.com/)
 
-- [NodeJS](https://github.com/)
-- [Git 2](https://github.com)
+### Clonando o projeto
 
-<h3>Cloning</h3>
-
-How to clone your project
-
-```bash
-git clone your-project-url-in-github
-```
-
-<h3>Config .env variables</h2>
-
-Use the `.env.example` as reference to create your configuration file `.env` with your AWS Credentials
-
-```yaml
-NODE_AWS_REGION=us-east-1
-NODE_AWS_KEY_ID={YOUR_AWS_KEY_ID}
-NODE_AWS_SECRET={YOUR_AWS_SECRET}
-```
-
-<h3>Starting</h3>
-
-How to start your project
+Para obter o código-fonte em sua máquina local, execute:
 
 ```bash
-cd project-name
-npm some-command-to-run
+git clone https://github.com/lucasmoreiira/APICEP/
 ```
 
-<h2 id="routes">📍 API Endpoints</h2>
 
-Here you can list the main routes of your API, and what are their expected request bodies.
-​
-| route               | description                                          
-|----------------------|-----------------------------------------------------
-| <kbd>GET /authenticate</kbd>     | retrieves user info see [response details](#get-auth-detail)
-| <kbd>POST /authenticate</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+. Acesse a aplicação em `http://localhost:8080`.
 
-<h3 id="get-auth-detail">GET /authenticate</h3>
+## 📌 API Endpoints
 
-**RESPONSE**
+Abaixo estão listadas as principais rotas da API:
+
+| Método | Rota          | Descrição                                                                 |
+|--------|---------------|---------------------------------------------------------------------------|
+| GET    | /cep/{cep}    | Consulta informações de um CEP específico, utilizando o serviço ViaCEP.  |
+
+### GET /cep/{cep}
+
+**REQUEST**  
+Essa rota permite consultar informações detalhadas sobre um CEP específico.  
+**Exemplo de requisição:**  
+```bash
+GET http://localhost:8080/cep/01001000
+```
+
+**RESPONSE**  
+Em caso de sucesso, retorna os dados do CEP consultado:  
 ```json
 {
-  "name": "Fernanda Kipper",
-  "age": 20,
-  "email": "her-email@gmail.com"
+  "cep": "01001-000",
+  "logradouro": "Praça da Sé",
+  "complemento": "lado ímpar",
+  "bairro": "Sé",
+  "localidade": "São Paulo",
+  "uf": "SP",
+  "ibge": "3550308",
+  "gia": "1004",
+  "ddd": "11",
+  "siafi": "7107"
 }
 ```
 
-<h3 id="post-auth-detail">POST /authenticate</h3>
+**Erros Comuns**  
+- **400 Bad Request:**  
+  Quando o CEP fornecido está em um formato inválido ou contém caracteres não permitidos.  
+  **Exemplo de resposta:**  
+  ```json
+  {
+    "error": "O CEP fornecido é inválido. Use o formato 00000-000."
+  }
+  ```
 
-**REQUEST**
-```json
-{
-  "username": "fernandakipper",
-  "password": "4444444"
-}
-```
+- **404 Not Found:**  
+  Quando o CEP não é encontrado na base de dados do ViaCEP.  
+  **Exemplo de resposta:**  
+  ```json
+  {
+    "error": "CEP não encontrado."
+  }
+  ```
 
-**RESPONSE**
-```json
-{
-  "token": "OwoMRHsaQwyAgVoc3OXmL1JhMVUYXGGBbCTK0GBgiYitwQwjf0gVoBmkbuyy0pSi"
-}
-```
+## 🧬 Testes
 
+Para executar os testes unitários, utilize o comando:
+```bash
+mvn test

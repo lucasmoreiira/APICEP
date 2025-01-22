@@ -1,5 +1,8 @@
 package com.example.apicep.exception;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Details of error response")
 public class ExceptionDTO {
 
     private String message;

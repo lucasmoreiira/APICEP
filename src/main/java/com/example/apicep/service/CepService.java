@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class CepService {
 
-
     public CEP getCEP(String cep){
 
         try {
@@ -27,8 +26,7 @@ public class CepService {
 
             return response;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("data not found with the provided cep");
         }
     }
-
 }

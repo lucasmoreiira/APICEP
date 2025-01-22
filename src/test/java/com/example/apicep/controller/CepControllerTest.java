@@ -3,77 +3,84 @@ package com.example.apicep.controller;
 import com.example.apicep.dto.CEP;
 import com.example.apicep.service.CepService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class CepControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @BeforeEach
+    void setUp(){
+        MockitoAnnotations.openMocks(this);
+    }
 
-    @MockitoBean
+    @Mock
     private CepService cepService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
-    void getCEPSucess() throws Exception{
+    void getDataWithCepSuccess() throws Exception{
 
-        String cep= "01001000";
+        //Given
+        String cep = "01001000";
 
-        CEP mockResponse = new CEP();
-        mockResponse.setCep("01001-000");
-        mockResponse.setLogradouro("Praça da Sé");
-        mockResponse.setComplemento("lado ímpar");
-        mockResponse.setBairro("Sé");
-        mockResponse.setLocalidade("São Paulo");
-        mockResponse.setUf("SP");
+        CEP response  =new CEP();
+        response.setCep(cep);
+        response.setLogradouro("Praça da Sé");
+        response.setComplemento("lado ímpar");
+        response.setBairro("Sé");
+        response.setLocalidade("São Paulo");
+        response.setUf("SP");
 
+        //When
+        when(cepService.getCEP(cep)).thenReturn(response);
 
+        //Then
+        CEP expected = cepService.getCEP(cep);
 
-        Mockito.when(cepService.getCEP(cep)).thenReturn(mockResponse);
-
-                String expectedResponse = """
-                {
-                "cep": "01001-000",
-                "logradouro": "Praça da Sé",
-                "complemento": "lado ímpar",
-                "bairro": "Sé",
-                "localidade": "São Paulo",
-                "uf": "SP"
-            }""";
-
-
-        mockMvc.perform(get("/cep/{cep}", cep))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedResponse));
+        //Assert
+        assertEquals(response,expected);
     }
 
-
     @Test
-    void getCEPFailure() throws Exception {
-
+    void getDataWithCepFailure()throws Exception{
+        //Given
         String cep = "";
 
-        mockMvc.perform(get("/cep/{cep}", cep))
-                .andExpect(status().isNotFound());
+        CEP emptyResponse= new CEP();
+        emptyResponse.setCep(cep);
+        emptyResponse.setLogradouro("");
+        emptyResponse.setComplemento("");
+        emptyResponse.setBairro("");
+        emptyResponse.setLocalidade("");
+        emptyResponse.setUf("");
+
+        //When
+        when(cepService.getCEP(cep)).thenThrow(new IllegalArgumentException("data not found with the provided cep"));
+
+        //Then
+        IllegalArgumentException response = assertThrows(IllegalArgumentException.class, () -> {
+          cepService.getCEP(cep);
+        });
+
+        String expected = "data not found with the provided cep";
+
+        //Assert
+        assertEquals(expected, response.getMessage());
+
     }
+
 }

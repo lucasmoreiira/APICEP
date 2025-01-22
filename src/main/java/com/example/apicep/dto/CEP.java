@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class CEP {
 
-
       private String cep;
       private String logradouro;
       private String complemento;

@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Swagger OpenApi", version ="2",description = "Documentação da API REST Library"))
+@OpenAPIDefinition(info = @Info(title = "Swagger OpenAPI", version ="2",description = "Documentação da API REST Library"))
 public class ApicepApplication {
 
 	public static void main(String[] args) {

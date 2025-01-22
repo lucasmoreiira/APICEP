@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/cep", produces = {"application/json"})
 @Tag(name = "open-api")
+
 public class CepController {
 
     @Autowired
